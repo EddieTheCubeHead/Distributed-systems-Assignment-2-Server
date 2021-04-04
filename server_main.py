@@ -68,7 +68,7 @@ class XMLReader:
         return "Successfully added data to the xml."
 
 
-def server_loop(file_name: str = 'db', host: str = 'localhost', port: int = 8000):
+def server_loop(file_name: str = 'db', host: str = 'localhost', port: int = 8000) -> None:
     reader = XMLReader(file_name)
     with SimpleXMLRPCServer((host, port), requestHandler=RequestHandler) as server:
         server.register_introspection_functions()
@@ -93,7 +93,7 @@ def server_loop(file_name: str = 'db', host: str = 'localhost', port: int = 8000
             return result
 
         @server.register_function
-        def add_wiki_result(topic: str, page_name: str) -> (str, str, str):
+        def add_wiki_result(topic: str, page_name: str) -> str:
             data = wikipedia.summary(page_name)
             return reader.add(topic, f"Wikipedia summary: {page_name}", data)
 
